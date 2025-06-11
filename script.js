@@ -3,6 +3,8 @@ let cols =parseInt(document.getElementById("cols").value);
 let start = [0, 0];
 let end = [0, 0];
 
+// generategrid function has some error yet
+
 function generateGrid() { 
   const grid = document.getElementById("grid");
   grid.innerHTML = "";
