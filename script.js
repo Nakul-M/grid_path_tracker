@@ -1,104 +1,71 @@
-let rows = parseInt(document.getElementById("rows").value) ;
-let cols =parseInt(document.getElementById("cols").value);
-let start = [0, 0];
-let end = [0, 0];
+let grid = [];
+      let rows = 3,
+        cols = 3;
+      let black_row = 1,
+        black_col = 1;
+      let delay = 1000;
+      let totalPaths = 0;
 
-// generategrid function has some error yet
+      function sleep(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+      }
 
-function generateGrid() { 
-  const grid = document.getElementById("grid");
-  grid.innerHTML = "";
-  grid.style.gridTemplateColumns = `repeat(${cols}, 40px)`;
-  grid.style.gridTemplateRows = `repeat(${rows}, 40px)`;
+      function createGrid(r, c) {
+        const container = document.getElementById("gridContainer");
+        container.innerHTML = "";
+        container.style.gridTemplateColumns = `repeat(${c}, 40px)`;
+        container.style.gridTemplateRows = `repeat(${r}, 40px)`;
 
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      const cell = document.createElement("div");
-      cell.className = "cell";
-      cell.id = `cell-${r}-${c}`;
-      grid.appendChild(cell);
-    }
-  }
+        grid = [];
+        for (let i = 0; i < r; i++) {
+          const row = [];
+          for (let j = 0; j < c; j++) {
+            const cell = document.createElement("div");
+            cell.className = "cell";
+            if (i === 0 && j === 0) cell.classList.add("start");
+            if (i === r - 1 && j === c - 1) cell.classList.add("end");
+            if (i === black_row && j === black_col) cell.classList.add("black");
+            container.appendChild(cell);
+            row.push(cell);
+          }
+          grid.push(row);
+        }
+      }
 
-  start = [0, 0]; // Top-left
-  end = [rows - 1, cols - 1]; // Bottom-right
+      async function animatePaths(r, c, i = 0, j = 0, path = []) {
+        if (i >= r || j >= c) return 0; //....
+        if (i == black_row && j == black_col) return 0;
+        path.push([i, j]);
+        grid[i][j].classList.add("path");
+        await sleep(delay);
 
-  document.getElementById(`cell-${start[0]}-${start[1]}`).classList.add("start");
-  document.getElementById(`cell-${end[0]}-${end[1]}`).classList.add("end");
-}
+        if (i === r - 1 && j === c - 1) {
+          totalPaths++;
+          document.getElementById(
+            "result"
+          ).innerText = `Paths found: ${totalPaths}`;
+          await sleep(1000);
+        } else {
+          await animatePaths(r, c, i + 1, j, path);
+          await animatePaths(r, c, i, j + 1, path);
+        }
 
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+        // Backtrack
+        const [x, y] = path.pop();
+        if (!(x === 0 && y === 0) && !(x === r - 1 && y === c - 1)) {
+          grid[x][y].classList.remove("path");
+        }
+      }
 
-async function highlightPath(path) {
-  // Clear previous paths
-  document.querySelectorAll(".cell").forEach(cell => {
-    cell.classList.remove("visited");
-  });
+      async function startAnimation() {
+        rows = parseInt(document.getElementById("rows").value);
+        cols = parseInt(document.getElementById("cols").value);
+        totalPaths = 0;
+        document.getElementById("result").innerText = "Animating...";
+        createGrid(rows, cols);
+        await animatePaths(rows, cols);
+        document.getElementById("result").innerText += ` — Animation complete.`;
+      }
 
-  for (let [r, c] of path) {
-    const cell = document.getElementById(`cell-${r}-${c}`);
-    if (!cell.classList.contains("start") && !cell.classList.contains("end")) {
-      cell.classList.add("visited");
-    }
-    await sleep(150);
-  }
-}
-
-async function findPaths() {
-  const visited = Array.from({ length: rows }, () => Array(cols).fill(false));
-  const path = [];
-  const allPaths = [];
-
-  function isValid(r, c) {
-    return r >= 0 && r < rows && c >= 0 && c < cols && !visited[r][c];
-  }
-
-  const directions = [
-    [1, 0], // down
-    [0, 1]  // right
-  ];
-
-  function dfs(r, c) {
-    if (r === end[0] && c === end[1]) {
-      allPaths.push([...path, [r, c]]);
-      return;
-    }
-
-    visited[r][c] = true;
-    path.push([r, c]);
-
-    for (let [dr, dc] of directions) {
-      let nr = r + dr;
-      let nc = c + dc;
-      if (isValid(nr, nc)) dfs(nr, nc);
-    }
-
-    visited[r][c] = false;
-    path.pop();
-  }
-
-  dfs(start[0], start[1]);
-
-  if (allPaths.length === 0) {
-    document.getElementById("pathCount").textContent = `Paths Found: 0`;
-    alert("No paths found!");
-    return;
-  }
-
-  // ✅ Increment count live as each path is shown
-  let pathCounter = 0;
-  document.getElementById("pathCount").textContent = `Paths Found: 0`;
-
-  for (let p of allPaths) {
-    await highlightPath(p);
-    pathCounter++;
-    document.getElementById("pathCount").textContent = `Paths Found: ${pathCounter}`;
-    await sleep(300);
-  }
-}
-
-
-// Initialize default grid
-window.onload = generateGrid;
+      // Initial grid
+      createGrid(rows, cols);

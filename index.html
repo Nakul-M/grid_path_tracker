@@ -6,14 +6,20 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Grid Path Tracker</h1>
-  <label>Rows: <input type="number" id="rows" value="4" min="1"></label>
-  <label>Columns: <input type="number" id="cols" value="4" min="1"></label>
-  <button onclick="generateGrid()">Generate Grid</button>
-  <button onclick="findPaths()">Show All Paths</button>
-  <p id="pathCount">Paths Found: 0</p>
+ <h1>Animated Grid Path Finder</h1>
 
-  <div id="grid" style="margin-top: 20px;"></div>
+    <div class="controls">
+      <label>Rows: <input type="number" id="rows" value="3" min="1" /></label>
+      <label>Cols: <input type="number" id="cols" value="3" min="1" /></label>
+      <br />
+      <button onclick="startAnimation()">Start Animation</button>
+    </div>
+
+    <p id="result"></p>
+
+    <div class="grid-wrapper">
+      <div id="gridContainer" class="grid"></div>
+    </div>
   <script src="script.js"></script>
 </body>
 </html>

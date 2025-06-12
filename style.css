@@ -1,30 +1,66 @@
-body {
-  text-align: center;
-  background-color: #f0f0f0;
-}
 
-#grid {
-  display: grid;
-  gap: 2px;
-  justify-content: center;
-}
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        background-color: bisque;
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: Arial, sans-serif;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      .controls {
+        margin-bottom: 20px;
+        text-align: center;
+      }
+      .grid-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .grid {
+        display: grid;
+        gap: 2px;
+      }
+      .cell {
+        width: 40px;
+        height: 40px;
+        background-color: #e2e8f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #ccc;
+      }
+      .start {
+        background-color: #4ade80; /* green */
+      }
+      .end {
+        background-color: #f87171; /* red */
+      }
+      .black {
+        background-color: black;
+      }
+      .path {
+        background-color: #60a5fa !important; /* blue */
+      }
 
-.cell {
-  width: 40px;
-  height: 40px;
-  border: 1px solid #333;
-  background-color: white;
-  transition: background-color 0.3s;
-}
-
-.start {
-  background-color: #32cd32 !important;
-}
-
-.end {
-  background-color: #ff4d4d !important;
-}
-
-.visited {
-  background-color: #4361ee;
-}
+      input {
+        padding: 10px;
+        font-size: 20px;
+        background-color: cadetblue;
+        color: white;
+      }
+      button {
+        padding: 10px;
+        margin: 10px;
+        background-color: coral;
+        border-radius: 9px;
+      }
+   
