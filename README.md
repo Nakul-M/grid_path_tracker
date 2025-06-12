@@ -25,3 +25,8 @@ A web-based interactive tool that visualizes all paths from the top-left corner 
    ```bash
    git clone https://github.com/Nakul-M/grid_path_tracker.git
    cd grid-path-tracker
+# upcoming 
+
+1. Add multiple obstacles
+2. Shortest path tracker
+3. and many more...
