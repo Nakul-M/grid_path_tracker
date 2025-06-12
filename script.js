@@ -3,7 +3,7 @@ let grid = [];
         cols = 3;
      let black_row = -1 ;
      let black_col =-1 ;
-      let delay = 1000;
+      let delay = 500;
       let totalPaths = 0;
 
       function sleep(ms) {
@@ -22,8 +22,8 @@ let grid = [];
           for (let j = 0; j < c; j++) {
             const cell = document.createElement("div");
             cell.className = "cell";
-            if (i === 0 && j === 0) cell.classList.add("start");
-            if (i === r - 1 && j === c - 1) cell.classList.add("end");
+            if (i === start_row && j === start_col) cell.classList.add("start");
+            if (i === end_row && j === end_col) cell.classList.add("end");
             if (i === black_row && j === black_col && black_col >0 && black_row > 0) cell.classList.add("black");
             container.appendChild(cell);
             row.push(cell);
@@ -40,7 +40,7 @@ let grid = [];
         grid[i][j].classList.add("path");
         await sleep(delay);
 
-        if (i === r - 1 && j === c - 1) {
+        if (i === end_row && j === end_col ) {
           totalPaths++;
           document.getElementById(
             "result"
@@ -61,12 +61,20 @@ let grid = [];
       async function startAnimation() {
         rows = parseInt(document.getElementById("rows").value);
         cols = parseInt(document.getElementById("cols").value);
+
         black_row = parseInt(document.getElementById("black_rows_id").value) - 1;
         black_col = parseInt(document.getElementById("black_cols_id").value) - 1;
+
+        start_row = parseInt(document.getElementById("start_row").value) - 1;
+        start_col = parseInt(document.getElementById("start_col").value) - 1;
+
+        end_row = parseInt(document.getElementById("end_row").value) - 1;
+        end_col = parseInt(document.getElementById("end_col").value) - 1;
+
         totalPaths = 0;
         document.getElementById("result").innerText = "Animating...";
         createGrid(rows, cols , black_row , black_col);
-        await animatePaths(rows, cols ,0, 0,[] , black_row , black_col);
+        await animatePaths(rows, cols ,start_row, start_col,[] , black_row , black_col);
         document.getElementById("result").innerText += ` — Animation complete.`;
       }
 
