@@ -5,7 +5,7 @@ let grid = [];
      let black_col =-1 ;
       let delay = 500;
       let totalPaths = 0;
-
+let blocked = new Set();
       function sleep(ms) {
         return new Promise((resolve) => setTimeout(resolve, ms));
       }
@@ -24,7 +24,19 @@ let grid = [];
             cell.className = "cell";
             if (i === start_row && j === start_col) cell.classList.add("start");
             if (i === end_row && j === end_col) cell.classList.add("end");
-            if (i === black_row && j === black_col && black_col >0 && black_row > 0) cell.classList.add("black");
+            // if (i === black_row && j === black_col && black_col >0 && black_row > 0) cell.classList.add("black");
+               const key = `${i},${j}`;
+            if (blocked.has(key)) cell.classList.add("black");
+              cell.addEventListener("click", () => {
+   
+      if (cell.classList.contains("black")) {
+        cell.classList.remove("black");
+        blocked.delete(key);
+      } else {
+        cell.classList.add("black");
+        blocked.add(key);
+      }
+    });
             container.appendChild(cell);
             row.push(cell);
           }
@@ -35,7 +47,7 @@ let grid = [];
       async function animatePaths(r, c, i , j , path = [] , black_row , black_col) {
         if (i >= r || j >= c) return 0; 
 
-        if (i == black_row && j == black_col) return 0;
+        if (blocked.has(`${i},${j}`)) return 0;
         path.push([i, j]);
         grid[i][j].classList.add("path");
         await sleep(delay);
@@ -45,7 +57,7 @@ let grid = [];
           document.getElementById(
             "result"
           ).innerText = `Paths found: ${totalPaths}`;
-          await sleep(1000);
+          await sleep(1500);
         } else {
           await animatePaths(r, c, i + 1, j, path ,  black_row , black_col);
           await animatePaths(r, c, i, j + 1, path , black_row , black_col);
@@ -62,8 +74,8 @@ let grid = [];
         rows = parseInt(document.getElementById("rows").value);
         cols = parseInt(document.getElementById("cols").value);
 
-        black_row = parseInt(document.getElementById("black_rows_id").value) - 1;
-        black_col = parseInt(document.getElementById("black_cols_id").value) - 1;
+        // black_row = parseInt(document.getElementById("black_rows_id").value) - 1;
+        // black_col = parseInt(document.getElementById("black_cols_id").value) - 1;
 
         start_row = parseInt(document.getElementById("start_row").value) - 1;
         start_col = parseInt(document.getElementById("start_col").value) - 1;
