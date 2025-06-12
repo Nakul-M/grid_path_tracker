@@ -53,9 +53,9 @@ let grid = [];
 
         // Backtrack
         const [x, y] = path.pop();
-        if (!(x === 0 && y === 0) && !(x === r - 1 && y === c - 1)) {
+       
           grid[x][y].classList.remove("path");
-        }
+        
       }
 
       async function startAnimation() {
