@@ -24,7 +24,7 @@ let grid = [];
             cell.className = "cell";
             if (i === 0 && j === 0) cell.classList.add("start");
             if (i === r - 1 && j === c - 1) cell.classList.add("end");
-            if (i === black_row && j === black_col) cell.classList.add("black");
+            if (i === black_row && j === black_col && black_col >0 && black_row > 0) cell.classList.add("black");
             container.appendChild(cell);
             row.push(cell);
           }
