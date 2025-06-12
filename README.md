@@ -27,6 +27,5 @@ A web-based interactive tool that visualizes all paths from the top-left corner 
    cd grid-path-tracker
 # upcoming 
 
-1. Add multiple obstacles
-2. Shortest path tracker
-3. and many more...
+1. Shortest path tracker
+2. and many more...
