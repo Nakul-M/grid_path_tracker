@@ -1,7 +1,7 @@
 let grid = [];
       let rows = 3,
         cols = 3;
-      let delay = 250;
+      let delay = 0;
       let totalPaths = 0;
 let blocked = new Set();
       function sleep(ms) {
@@ -9,7 +9,7 @@ let blocked = new Set();
       }
 
   
-      function createGrid(r, c , black_row , black_col) {
+function createGrid(r, c , black_row , black_col) {
         const container = document.getElementById("gridContainer");
         container.innerHTML = "";
         container.style.gridTemplateColumns = `repeat(${c}, 40px)`;
@@ -56,7 +56,7 @@ let blocked = new Set();
           document.getElementById(
             "result"
           ).innerText = `Paths found: ${totalPaths}`;
-          await sleep(1500);
+          await sleep(1000);
         } else {
           await animatePaths(r, c, i + 1, j, path );
           await animatePaths(r, c, i, j + 1, path );
@@ -86,12 +86,12 @@ let blocked = new Set();
 
         totalPaths = 0;
         document.getElementById("result").innerText = "Animating...";
-        createGrid(rows, cols );
+       // createGrid(rows, cols );
         await animatePaths(rows, cols ,start_row, start_col,[]);
         document.getElementById("result").innerText += ` — Animation complete.`;
       }
 
-          function createGridFromInput() {
+function createGridFromInput() {
           const rows = parseInt(document.getElementById("rows").value);
   const cols = parseInt(document.getElementById("cols").value);
   start_row = parseInt(document.getElementById("start_row").value) - 1;
@@ -100,7 +100,10 @@ let blocked = new Set();
   end_col = parseInt(document.getElementById("end_col").value) - 1;
 
   blocked.clear(); // reset blocked cells
-  createGrid(rows, cols);
-  alert("GRID CREATES . ADD THE OBSTCALES JUST BY CLICKING ON CELL AND VICE-VERSA IF U WISH")
+createGrid(rows, cols);
+// Delay the alert slightly to let the DOM render first
+setTimeout(() => {
+  alert("GRID CREATED. ADD THE OBSTACLES BY CLICKING ON CELLS AND TOGGLE THEM IF YOU WISH.");
+}, 1000);
       }
  
