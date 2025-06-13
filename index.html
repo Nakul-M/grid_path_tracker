@@ -10,17 +10,19 @@
  <p>(Click On The Cell Of The Grid To Add The Obstacle And Vice-Versa)</p>
 
     <div class="controls">
-      <label>Rows: <input type="number" id="rows" value="3" min="1" /></label>
-      <label>Cols: <input type="number" id="cols" value="3" min="1" /></label>
+      <label>Rows: <input type="number" id="rows" min="1" /></label>
+      <label>Cols: <input type="number" id="cols" min="1" /></label>
          <hr>
-       <label> Start Row : <input type="number" id="start_row" value="1" /></label>
-      <label> Start Col : <input type="number" id="start_col" value="1"/></label>
+       <label> Start Row : <input type="number" id="start_row"  /></label>
+      <label> Start Col : <input type="number" id="start_col" /></label>
             <hr>
-       <label> End Row : <input type="number" id="end_row" value="3" /></label>
-      <label> End Col : <input type="number" id="end_col" value="3"/></label>
-      
+       <label> End Row : <input type="number" id="end_row"  /></label>
+      <label> End Col : <input type="number" id="end_col" /></label>
+        <br>
+           <button onclick="createGridFromInput()">Create Grid</button>
       <br />
       <button onclick="startAnimation()">Start Animation</button>
+    
     </div>
 
     <p id="result"></p>

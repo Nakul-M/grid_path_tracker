@@ -1,15 +1,14 @@
 let grid = [];
       let rows = 3,
         cols = 3;
-     let black_row = -1 ;
-     let black_col =-1 ;
-      let delay = 500;
+      let delay = 250;
       let totalPaths = 0;
 let blocked = new Set();
       function sleep(ms) {
         return new Promise((resolve) => setTimeout(resolve, ms));
       }
 
+  
       function createGrid(r, c , black_row , black_col) {
         const container = document.getElementById("gridContainer");
         container.innerHTML = "";
@@ -44,7 +43,7 @@ let blocked = new Set();
         }
       }
 
-      async function animatePaths(r, c, i , j , path = [] , black_row , black_col) {
+      async function animatePaths(r, c, i , j , path = []) {
         if (i >= r || j >= c) return 0; 
 
         if (blocked.has(`${i},${j}`)) return 0;
@@ -59,8 +58,9 @@ let blocked = new Set();
           ).innerText = `Paths found: ${totalPaths}`;
           await sleep(1500);
         } else {
-          await animatePaths(r, c, i + 1, j, path ,  black_row , black_col);
-          await animatePaths(r, c, i, j + 1, path , black_row , black_col);
+          await animatePaths(r, c, i + 1, j, path );
+          await animatePaths(r, c, i, j + 1, path );
+                 await animatePaths(r, c, i+1, j + 1, path );
         }
 
         // Backtrack
@@ -69,11 +69,12 @@ let blocked = new Set();
           grid[x][y].classList.remove("path");
         
       }
-
+         
+           
       async function startAnimation() {
-        rows = parseInt(document.getElementById("rows").value);
-        cols = parseInt(document.getElementById("cols").value);
-
+   
+   let rows = parseInt(document.getElementById("rows").value);
+            let cols = parseInt(document.getElementById("cols").value);
         // black_row = parseInt(document.getElementById("black_rows_id").value) - 1;
         // black_col = parseInt(document.getElementById("black_cols_id").value) - 1;
 
@@ -85,10 +86,21 @@ let blocked = new Set();
 
         totalPaths = 0;
         document.getElementById("result").innerText = "Animating...";
-        createGrid(rows, cols , black_row , black_col);
-        await animatePaths(rows, cols ,start_row, start_col,[] , black_row , black_col);
+        createGrid(rows, cols );
+        await animatePaths(rows, cols ,start_row, start_col,[]);
         document.getElementById("result").innerText += ` — Animation complete.`;
       }
 
-      // Initial grid
-      createGrid(rows, cols);
+          function createGridFromInput() {
+          const rows = parseInt(document.getElementById("rows").value);
+  const cols = parseInt(document.getElementById("cols").value);
+  start_row = parseInt(document.getElementById("start_row").value) - 1;
+  start_col = parseInt(document.getElementById("start_col").value) - 1;
+  end_row = parseInt(document.getElementById("end_row").value) - 1;
+  end_col = parseInt(document.getElementById("end_col").value) - 1;
+
+  blocked.clear(); // reset blocked cells
+  createGrid(rows, cols);
+  alert("GRID CREATES . ADD THE OBSTCALES JUST BY CLICKING ON CELL AND VICE-VERSA IF U WISH")
+      }
+ 
