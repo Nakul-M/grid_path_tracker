@@ -60,7 +60,7 @@ let blocked = new Set();
         } else {
           await animatePaths(r, c, i + 1, j, path );
           await animatePaths(r, c, i, j + 1, path );
-                 await animatePaths(r, c, i+1, j + 1, path );
+           
         }
 
         // Backtrack
