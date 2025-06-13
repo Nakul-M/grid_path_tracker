@@ -1,7 +1,7 @@
 let grid = [];
       let rows = 3,
         cols = 3;
-      let delay = 0;
+      let delay = 250;
       let totalPaths = 0;
 let blocked = new Set();
       function sleep(ms) {
@@ -56,7 +56,7 @@ function createGrid(r, c , black_row , black_col) {
           document.getElementById(
             "result"
           ).innerText = `Paths found: ${totalPaths}`;
-          await sleep(1000);
+          await sleep(1500);
         } else {
           await animatePaths(r, c, i + 1, j, path );
           await animatePaths(r, c, i, j + 1, path );
