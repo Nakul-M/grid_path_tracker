@@ -91,19 +91,44 @@ function createGrid(r, c , black_row , black_col) {
         document.getElementById("result").innerText += ` — Animation complete.`;
       }
 
-function createGridFromInput() {
-          const rows = parseInt(document.getElementById("rows").value);
-  const cols = parseInt(document.getElementById("cols").value);
-  start_row = parseInt(document.getElementById("start_row").value) - 1;
-  start_col = parseInt(document.getElementById("start_col").value) - 1;
-  end_row = parseInt(document.getElementById("end_row").value) - 1;
-  end_col = parseInt(document.getElementById("end_col").value) - 1;
 
-  blocked.clear(); // reset blocked cells
-createGrid(rows, cols);
-// Delay the alert slightly to let the DOM render first
-setTimeout(() => {
-  alert("GRID CREATED. ADD THE OBSTACLES BY CLICKING ON CELLS AND TOGGLE THEM IF YOU WISH.");
-}, 1000);
-      }
- 
+ window.addEventListener("DOMContentLoaded", () => {
+  const inputs = [
+    "rows",
+    "cols",
+    "start_row",
+    "start_col",
+    "end_row",
+    "end_col",
+  ].map((id) => document.getElementById(id));
+const updateGridIfValid = () => {
+  const rowVal = parseInt(document.getElementById("rows").value);
+  const colVal = parseInt(document.getElementById("cols").value);
+  const startRow = parseInt(document.getElementById("start_row").value) - 1;
+  const startCol = parseInt(document.getElementById("start_col").value) - 1;
+  const endRow = parseInt(document.getElementById("end_row").value) - 1;
+  const endCol = parseInt(document.getElementById("end_col").value) - 1;
+
+  const allValid = [rowVal, colVal, startRow, startCol, endRow, endCol].every(
+    (v) => !isNaN(v) && v >= 0
+  );
+
+  if (allValid) {
+    // Update global variables
+    rows = rowVal;
+    cols = colVal;
+    start_row = startRow;
+    start_col = startCol;
+    end_row = endRow;
+    end_col = endCol;
+
+    blocked.clear(); // Optional: clear obstacles when re-creating
+    createGrid(rows, cols);
+  }
+};
+
+
+  for (const input of inputs) {
+    input.addEventListener("input", updateGridIfValid);
+  }
+});
