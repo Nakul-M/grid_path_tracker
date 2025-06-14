@@ -124,6 +124,9 @@ const updateGridIfValid = () => {
 
     blocked.clear(); // Optional: clear obstacles when re-creating
     createGrid(rows, cols);
+setTimeout(() => {
+  alert("Click on the cell to add obstacle and toggle");
+}, 5000);
   }
 };
 
