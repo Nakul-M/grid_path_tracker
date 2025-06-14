@@ -14,7 +14,9 @@ function createGrid(r, c , black_row , black_col) {
         container.innerHTML = "";
         container.style.gridTemplateColumns = `repeat(${c}, 40px)`;
         container.style.gridTemplateRows = `repeat(${r}, 40px)`;
-
+            setTimeout(() => {
+  alert("Click on the cell to add obstacle and toggle");
+}, 0);
         grid = [];
         for (let i = 0; i < r; i++) {
           const row = [];
@@ -40,6 +42,7 @@ function createGrid(r, c , black_row , black_col) {
             row.push(cell);
           }
           grid.push(row);
+       
         }
       }
 
@@ -124,9 +127,7 @@ const updateGridIfValid = () => {
 
     blocked.clear(); // Optional: clear obstacles when re-creating
     createGrid(rows, cols);
-setTimeout(() => {
-  alert("Click on the cell to add obstacle and toggle");
-}, 5000);
+
   }
 };
 
